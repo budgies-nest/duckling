@@ -1,5 +1,5 @@
 services:
-  tiny-agent:
+  duckling-agent:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,10 +9,7 @@ services:
       - HTTP_PORT=${HTTP_PORT}
       - ENGINE_ENDPOINT=${DMR_BASE_URL}/engines/llama.cpp/v1
       - DMR_CHAT_MODEL=${DMR_CHAT_MODEL}
-      - SYSTEM_INSTRUCTION= |
-          You are a helpful assistant. You are a Star Trek expert.
-          Answer the user's questions to the best of your ability.
-          If you don't know the answer, say "I don't know" instead of making up an answer.
+      - SYSTEM_INSTRUCTION=${SYSTEM_INSTRUCTION}
     depends_on:
       - download-chat-model
 
