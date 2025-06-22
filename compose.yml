@@ -1,20 +1,33 @@
 services:
-  duckling-agent:
+  mermaid-agent:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file: mermaid.env
     ports:
-      - 7070:${HTTP_PORT}
-    environment:
-      - HTTP_PORT=${HTTP_PORT}
-      - ENGINE_ENDPOINT=${DMR_BASE_URL}/engines/llama.cpp/v1
-      - DMR_CHAT_MODEL=${DMR_CHAT_MODEL}
-      - SYSTEM_INSTRUCTION=${SYSTEM_INSTRUCTION}
+      - 7071:7070
     depends_on:
       - download-chat-model
+
+  golang-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: golang.env
+    ports:
+      - 7072:7070
+    depends_on:
+      - download-dev-model
 
   download-chat-model:
     provider:
       type: model
       options:
-        model: ${DMR_CHAT_MODEL}
+        model: ai/qwen2.5:latest
+
+  download-dev-model:
+    provider:
+      type: model
+      options:
+        #model: k33g/qwen2.5-coder:3b-instruct-fp16
+        model: ai/qwen2.5:latest
