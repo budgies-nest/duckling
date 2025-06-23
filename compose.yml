@@ -1,23 +1,9 @@
-services:
-  mermaid-agent:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file: mermaid.env
-    ports:
-      - 7071:7070
-    depends_on:
-      - download-chat-model
 
-  golang-agent:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file: golang.env
-    ports:
-      - 7072:7070
-    depends_on:
-      - download-dev-model
+include:
+  - ./mermaid-agent.yml
+  - ./golang-agent.yml
+
+services:
 
   download-chat-model:
     provider:
@@ -29,5 +15,5 @@ services:
     provider:
       type: model
       options:
-        #model: k33g/qwen2.5-coder:3b-instruct-fp16
-        model: ai/qwen2.5:latest
+        model: k33g/qwen2.5-coder:3b-instruct-fp16
+        #model: ai/qwen2.5:latest
